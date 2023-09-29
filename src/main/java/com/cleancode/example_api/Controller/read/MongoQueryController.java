@@ -1,8 +1,10 @@
 package com.cleancode.example_api.Controller.read;
 
+import com.cleancode.example_api.DTO.RequestDTO;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 public class MongoQueryController {
@@ -21,6 +26,9 @@ public class MongoQueryController {
     //TODO [js] use mongo template and call mongodb data
     @GetMapping("/query")
     public ResponseEntity<String> executeQuery() {
+
+        log.info("Controller /query : TIME {},  : parameter {}", new Date(), "test");
+
         MongoCollection<Document> collection = mongoTemplate.getCollection("TB_INDEX_TEST");
 
         Document query = new Document("metadata.provider", "aws");
@@ -40,8 +48,8 @@ public class MongoQueryController {
     }
 
     @PostMapping("/query-post")
-    public ResponseEntity<String> executeQuery(@RequestBody RequestPayload payload) {
-        if(!"aws".equalsIgnoreCase(payload.getProvider())) {
+    public ResponseEntity<String> executeQuery(@RequestBody RequestDTO requestDTO) {
+        if(!"aws".equalsIgnoreCase(requestDTO.getProvider())) {
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("[null]");
         }
 
@@ -58,17 +66,5 @@ public class MongoQueryController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(jsonArray.toString());
-    }
-}
-
-class RequestPayload {
-    private String provider;
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
     }
 }
