@@ -4,6 +4,7 @@ import com.cleancode.example_api.DTO.RequestDTO;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.json.JSONArray;
@@ -27,7 +28,8 @@ public class MongoQueryController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    //TODO [js] use mongo template and call mongodb data
+    //TODO [js] use mongo template and call mongodb data group by
+    @Operation(summary = "mongoDB group api 예제", description = "req : none // res : none")
     @GetMapping("/group")
     public ResponseEntity<String> executeGroupQuery() {
         JSONArray jsonArray = new JSONArray();
@@ -66,7 +68,7 @@ public class MongoQueryController {
     @GetMapping("/query")
     public ResponseEntity<String> executeQuery() {
 
-//        log.info("Controller /query : TIME {},  : parameter {}", new Date(), "test");
+//        log.info("Controller /query : TIME {},  : parameter {}", "new Date()", "test");
 
         MongoCollection<Document> collection = mongoTemplate.getCollection("test100");
 
@@ -86,24 +88,24 @@ public class MongoQueryController {
                 .body(jsonArray.toString());
     }
 
-//    @PostMapping("/query-post")
-//    public ResponseEntity<String> executeQuery(@RequestBody RequestDTO requestDTO) {
-//        if(!"aws".equalsIgnoreCase(requestDTO.getProvider())) {
-//            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("[null]");
-//        }
-//
-//        MongoCollection<Document> collection = mongoTemplate.getCollection("TB_INDEX_TEST");
-//        Document query = new Document("metadata.provider", "aws");
-//
-//        JSONArray jsonArray = new JSONArray();
-//        MongoCursor<Document> cursor = collection.find(query).iterator();
-//        while (cursor.hasNext()) {
-//            Document doc = cursor.next();
-//            jsonArray.put(doc.toJson());
-//        }
-//
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .body(jsonArray.toString());
-//    }
+    @PostMapping("/query-post")
+    public ResponseEntity<String> executeQuery(@RequestBody RequestDTO requestDTO) {
+        if(!"aws".equalsIgnoreCase(requestDTO.getProvider())) {
+            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("[null]");
+        }
+
+        MongoCollection<Document> collection = mongoTemplate.getCollection("test100");
+        Document query = new Document("provider", "aws");
+
+        JSONArray jsonArray = new JSONArray();
+        MongoCursor<Document> cursor = collection.find(query).iterator();
+        while (cursor.hasNext()) {
+            Document doc = cursor.next();
+            jsonArray.put(doc.toJson());
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(jsonArray.toString());
+    }
 }
