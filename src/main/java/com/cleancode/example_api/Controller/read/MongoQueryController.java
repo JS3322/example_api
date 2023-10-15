@@ -1,5 +1,6 @@
 package com.cleancode.example_api.Controller.read;
 
+import com.cleancode.example_api.CustomUtility.CustomAnnotation.CheckRequestParameters;
 import com.cleancode.example_api.DTO.RequestDTO;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -28,6 +29,7 @@ public class MongoQueryController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @CheckRequestParameters
     @Operation(summary = "mongoDB group api 예제", description = "req : none // res : none")
     @PostMapping("/group")
     public ResponseEntity<String> executeGroupByQuery(@RequestBody RequestDTO requestDTO) {
