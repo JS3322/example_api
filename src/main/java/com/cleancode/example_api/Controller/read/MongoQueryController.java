@@ -28,6 +28,17 @@ public class MongoQueryController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Operation(summary = "mongoDB group api 예제", description = "req : none // res : none")
+    @PostMapping("/group")
+    public ResponseEntity<String> executeGroupByQuery(@RequestBody RequestDTO requestDTO) {
+
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body("test");
+
+    }
+
     //TODO [js] use mongo template and call mongodb data group by
     @Operation(summary = "mongoDB group api 예제", description = "req : none // res : none")
     @GetMapping("/group")
@@ -90,9 +101,9 @@ public class MongoQueryController {
 
     @PostMapping("/query-post")
     public ResponseEntity<String> executeQuery(@RequestBody RequestDTO requestDTO) {
-        if(!"aws".equalsIgnoreCase(requestDTO.getProvider())) {
-            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("[null]");
-        }
+//        if(!"aws".equalsIgnoreCase(requestDTO.getProvider())) {
+//            return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("[null]");
+//        }
 
         MongoCollection<Document> collection = mongoTemplate.getCollection("test100");
         Document query = new Document("provider", "aws");
