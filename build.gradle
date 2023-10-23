@@ -34,6 +34,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	implementation 'org.aspectj:aspectjweaver:1.9.7'
 
+	//springboot gateway 서킷브레이커 예제
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
+	//springboot gateway
+	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+	implementation 'org.springframework.security:spring-security-core'
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
 }
 
 tasks.named('test') {
