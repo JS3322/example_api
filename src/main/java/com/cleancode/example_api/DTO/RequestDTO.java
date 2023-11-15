@@ -13,4 +13,7 @@ public class RequestDTO {
     private Map<String,?> requestMatchParameter;
     private Map<String,?> requestGroupByParameter;
     private Map<String,?> requestSortParameter;
+
+	//시간정보 설정: localDateTime
+	private LocalDateTime today_time;
 }
