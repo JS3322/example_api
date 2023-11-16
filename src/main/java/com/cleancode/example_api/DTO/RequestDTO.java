@@ -16,4 +16,16 @@ public class RequestDTO {
 
 	//시간정보 설정: localDateTime
 	private LocalDateTime today_time;
+
+//계정생성: read권한+test db권한
+db.createUser({
+	user: "readAccountExample",
+	pwd: "1234"
+	roles: [{
+		role: "read", db:"test"
+	}]
+})
+
+
+
 }
