@@ -17,7 +17,7 @@ public class RequestDTO {
 	//시간정보 설정: localDateTime
 	private LocalDateTime today_time;
 
-//계정생성: read권한+test db권한
+//계정생성:
 db.createUser({
 	user: "readAccountExample",
 	pwd: "1234"
@@ -25,6 +25,28 @@ db.createUser({
 		role: "read", db:"test"
 	}]
 })
+
+db.createUser({
+	user: "readWriteAccountExample",
+	pwd: "1234"
+	roles: [{
+		role: "readWrite", db:"test"
+	}]
+})
+
+db.createUser({
+	user: "superAdmin",
+	pwd: "1234"
+	roles: [{
+		{role: "readWriteAnyDatabase", db:"admin"},
+		{role: "userAdminAnyDatabase", db:"admin"},
+		{role: "dbAdminAnyDatabase", db:"admin"},
+		{role: "clusterAdmin", db:"admin"},
+		{role: "restore", db:"admin"},
+		{role: "backup", db:"admin"},
+	}]
+})
+
 
 
 
